@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 89657811}
   - component: {fileID: 89657810}
   - component: {fileID: 89657815}
+  - component: {fileID: 89657816}
   m_Layer: 0
   m_Name: Claw
   m_TagString: Untagged
@@ -224,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 89657808}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 6.29, z: 16}
+  m_LocalPosition: {x: 16, y: 7.5, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -257,6 +258,52 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!144 &89657816
+CharacterJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89657808}
+  m_ConnectedBody: {fileID: 1555189736}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 2.5, z: 0}
+  m_Axis: {x: 1, y: 0, z: 0}
+  m_AutoConfigureConnectedAnchor: 0
+  m_ConnectedAnchor: {x: 0, y: -0.5, z: 0}
+  serializedVersion: 2
+  m_SwingAxis: {x: 0, y: 1, z: 0}
+  m_TwistLimitSpring:
+    spring: 0
+    damper: 0
+  m_LowTwistLimit:
+    limit: 1.8972338
+    bounciness: 0
+    contactDistance: 0
+  m_HighTwistLimit:
+    limit: 87.93933
+    bounciness: 0
+    contactDistance: 0
+  m_SwingLimitSpring:
+    spring: 0
+    damper: 0
+  m_Swing1Limit:
+    limit: 43.56548
+    bounciness: 0
+    contactDistance: 0
+  m_Swing2Limit:
+    limit: 46.29933
+    bounciness: 0
+    contactDistance: 0
+  m_EnableProjection: 0
+  m_ProjectionDistance: 0.1
+  m_ProjectionAngle: 180
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &495023287
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +390,7 @@ Transform:
   m_GameObject: {fileID: 495023287}
   serializedVersion: 2
   m_LocalRotation: {x: 0.37318182, y: -0, z: -0, w: 0.9277583}
-  m_LocalPosition: {x: 2.573809, y: 0.505, z: -19.3}
+  m_LocalPosition: {x: 0, y: -0.27, z: -6.97}
   m_LocalScale: {x: 2.523341, y: 0.09264824, z: 0.45329764}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -550,7 +597,6 @@ GameObject:
   - component: {fileID: 1555189737}
   - component: {fileID: 1555189736}
   - component: {fileID: 1555189741}
-  - component: {fileID: 1555189742}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -691,30 +737,6 @@ MonoBehaviour:
     m_Actions: []
     m_Bindings: []
   speed: 2
---- !u!145 &1555189742
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555189735}
-  m_ConnectedBody: {fileID: 89657815}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: -0.5, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_Spring: 100
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 1
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 1
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ Preset:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: saved SpringJoint
+  m_Name: saved SpringJoint settings (just in case, probably irrelevant)
   m_TargetType:
     m_NativeTypeID: 145
     m_ManagedTypePPtr: {fileID: 0}
