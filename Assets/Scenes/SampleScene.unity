@@ -684,7 +684,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa46d721d8d95499eb95b0825809b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  ClawActions:
+    m_Name: 
+    m_Id: 
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
   speed: 2
 --- !u!145 &1555189742
 SpringJoint:

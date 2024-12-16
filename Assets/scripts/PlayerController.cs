@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;          // you need this library for anything wi
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]        // this is so you can edit the value in the Inspector but keep it private
+    [SerializeField]                        // this is so you can edit the value in the Inspector but keep it private
     private float normalSpeed = 2.0f;       // player speed
     PlayerInput playerControls;             // variable ref to inputs
     InputAction move;                       // var for specific action you want
