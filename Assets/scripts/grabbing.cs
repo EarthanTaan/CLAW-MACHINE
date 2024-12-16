@@ -13,6 +13,6 @@ public class grabbing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if () { }
+        //if () { }     We're not using this yet so I'm commenting it out just so it stops throwing an error.   -E
     }
 }

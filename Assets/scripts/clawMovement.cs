@@ -6,8 +6,7 @@ using UnityEngine;
 public class clawMovement : MonoBehaviour
 {
     private float timer = 0.0f;
-
-    public Rigidbody rb;
+    Rigidbody rb;
     public float speed = 10.0f;
     // Start is called before the first frame update
     void Start()
