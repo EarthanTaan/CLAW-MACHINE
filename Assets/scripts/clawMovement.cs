@@ -18,8 +18,8 @@ public class clawMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();     //  Assigning the Rigidbody to the handle for ease of use in Update()   -E
-        ClawActions = GetComponent<InputActionMap>();
-        ClawActions.Enable();
+        //ClawActions = GetComponent<InputActionMap>();     //Commenting this out since I don't think we need to fuck around with action maps.
+        //ClawActions.Enable();
     }
   
 
@@ -32,30 +32,31 @@ public class clawMovement : MonoBehaviour
          * We might prefer to translate the transform for absolute motion,
          * rather than using a force simulation to push it around.
          * I'm commenting it out instead of deleting it, just in case I've made a mistake and we end up wanting it back.
-         */     // -E
+         *  -E
 
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    rb.AddForce(0, 0, 1f, ForceMode.Impulse);
-        //}
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    rb.AddForce(0, 0, -1f, ForceMode.Impulse);
-        //}
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    rb.AddForce(-1, 0, 0f, ForceMode.Impulse);
-        //}
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    rb.AddForce(1, 0, 0f, ForceMode.Impulse);
-        //}
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            rb.AddForce(0, 0, 1f, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            rb.AddForce(0, 0, -1f, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rb.AddForce(-1, 0, 0f, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rb.AddForce(1, 0, 0f, ForceMode.Impulse);
+        }           (end of disabled physics-based movement code) */
 
+
+        // Movement controls for the claw-machine's armature.
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector3.forward);
         }
-
         if (Input.GetKey(KeyCode.S))
         {
             transform.Translate(Vector3.back);
