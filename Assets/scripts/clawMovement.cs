@@ -28,30 +28,6 @@ public class clawMovement : MonoBehaviour
     {
         timer += Time.deltaTime;        // Each frame, the <timer>'s value increases by the fraction of a second that has passed between frame renders. (This might be redundant with FixedUpdate(), but I'm not sure)
 
-        /* What follows is physics-based movement code, but I don't know if we really want that.
-         * We might prefer to translate the transform for absolute motion,
-         * rather than using a force simulation to push it around.
-         * I'm commenting it out instead of deleting it, just in case I've made a mistake and we end up wanting it back.
-         *  -E
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            rb.AddForce(0, 0, 1f, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            rb.AddForce(0, 0, -1f, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.AddForce(-1, 0, 0f, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.AddForce(1, 0, 0f, ForceMode.Impulse);
-        }           (end of disabled physics-based movement code) */
-
-
         // Movement controls for the claw-machine's armature.
         if (Input.GetKey(KeyCode.W))
         {
