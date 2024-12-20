@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 
@@ -74,23 +75,13 @@ public class clawMovement : MonoBehaviour
     // Lower the claw:
     public void Lower()
     {
-        for (float f = hiPt.y; f > lowPt.y; f -= Time.deltaTime)
-        {
-            float clawAlt = tether.connectedAnchor.y;                       // "Claw Altitude" is the current value of the Anchor's Y position.
-            clawAlt = Mathf.SmoothDamp(clawAlt, lowPt.y, ref speed, 1f);    // Each frame of Update(), "Claw Altitude" becomes SmoothDamped
-            tether.connectedAnchor = new Vector3(0, clawAlt, 0f);
-        }
-        Invoke("Raise", wait);
+        tether.connectedAnchor = lowPt;
+        Invoke("Raise", 2.5f);
     }
 
     public void Raise()     //Raise the claw        -E
     {
-        for (float f = lowPt.y; f < hiPt.y; f += Time.deltaTime)
-        {
-            float clawAlt = tether.connectedAnchor.y;                       // "Claw Altitude" is the current value of the Anchor's Y position.
-            clawAlt = Mathf.SmoothDamp(clawAlt, hiPt.y, ref speed, 1f);    // Each frame of Update(), "Claw Altitude" becomes SmoothDamped
-            tether.connectedAnchor = new Vector3(0, clawAlt, 0f);
-        }
+        tether.connectedAnchor = hiPt;
     }
 
 }   //end of Monobehavior; no code goes below/outside this line.    -E
