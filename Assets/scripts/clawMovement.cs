@@ -4,15 +4,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 
-public class clawMovement : MonoBehaviour
+public class clawMovement : MonoBehaviour       // Note that although it's called "clawMovement", this script is attached to the "Armature", not the "Claw".
 {
-    // Establishing convenient handles for the GameObject's components. (They'll need to be assigned in Start() )    -E
-    Rigidbody rb;                       
-    CharacterJoint tether;
-    Vector3 hiPt = new Vector3(0f, -0.5f, 0f); // "High Point" the top of the claw's vertical range      -E
-    Vector3 lowPt = new Vector3(0f,-1f,0f);    // "Low Point" the bottom of the claw's vertical range   -E
+    // Establishing convenient handles for the GameObjects' components. (They'll need to be assigned in Start() )    -E
+    GameObject Elevator;                // the invisible anchor to which the Claw is actually attached. This will move down and up.
     public float speed = 0.5f;
     private float timer = 0.0f;         // (what was this for?) (Maybe I can use it for the lower/raise function.)     -E
     [SerializeField] float wait = 2.5f;
@@ -22,9 +20,8 @@ public class clawMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //  Assigning components to our handlesfor ease of use in Update()   -E
-        rb = GetComponent<Rigidbody>();
-        tether = GameObject.Find("Claw").GetComponent<CharacterJoint>();    // Our movement controls are on the armature ('this' object), but the joint component is on the Claw.   -E
+        //  Assigning components to our handles for ease of use in Update()   -E
+        Elevator = GameObject.Find("Elevator");
     }
 
 
@@ -64,25 +61,43 @@ public class clawMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Lower();
+            float ElevatorY = Elevator.transform.position.y;            // grab the Y value of the Elevator's position, to pass into the loop below.
+            float lerpStart = ElevatorY;                                // Copy the Elevator's present position to use as the static start of the Lerp.
+
+            for (float i = 0f; i < 1f; i += Time.deltaTime)             // the operation will complete in 1 second.
+            {
+                float remainingDist = Mathf.InverseLerp(0f, 1f, i);     // calculate the remaining time each loop before the second is over.
+                
+                // Elevator Y pos -> 9.25f
+                ElevatorY = Mathf.Lerp(lerpStart, 9.25f, remainingDist);  // Lerp it: from start, to target, by a factor proportional to the time remaining
+                Elevator.transform.position = new Vector3(0,ElevatorY,0);   // update the Elevator's transform with the adjusted position each loop
+
+                //tether.connectedAnchor.y -> 0.5f
+
+                /*
+                 *              <-- This is where you were working last!!!
+                 *                      HEY LOOK
+                 *                          -E
+                 */
+                
+                //tether.anchor.y -> 7.85f
+            }
         }
-
-
     }
 
     //  Methods Zone, the zone for methods.     -E
 
     // Lower the claw:
-    public void Lower()
-    {
-        tether.connectedAnchor = lowPt;
-        Invoke("Raise", 2.5f);
-    }
+    //public void Lower()
+    //{
+        
+    //}
 
-    public void Raise()     //Raise the claw        -E
-    {
-        tether.connectedAnchor = hiPt;
-    }
+    //public void Raise()     //Raise the claw        -E
+    //{
+    //    tether.connectedAnchor = Vector3.MoveTowards(tether.connectedAnchor, hiPt, Time.deltaTime);
+    //    clawDown = false;
+    //}
 
 }   //end of Monobehavior; no code goes below/outside this line.    -E
 
