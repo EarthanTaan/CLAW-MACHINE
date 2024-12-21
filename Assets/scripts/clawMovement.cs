@@ -5,31 +5,52 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 
 public class clawMovement : MonoBehaviour       // Note that although it's called "clawMovement", this script is attached to the "Armature", not the "Claw".
 {
     // Establishing convenient handles for the GameObjects' components. (They'll need to be assigned in Start() )    -E
     GameObject Elevator;                // the invisible anchor to which the Claw is actually attached. This will move down and up.
-    public float speed = 0.5f;
-    private float timer = 0.0f;         // (what was this for?) (Maybe I can use it for the lower/raise function.)     -E
-    [SerializeField] float wait = 2.5f;
-    bool clawDown = false;                      // the claw is not down     -E
+    GameObject Claw;                    // the claw object which holds the CharacterJoint component.
+    GameObject Armature;                // the mounting which we move directly and which houses the Elevator (and to which this script is attached).
+    /* Note: I tried to build myself a similar shortcut to the CharacterJoint component directly, but apparently the Component base class doesn't have access to those kinds of functions.
+     * So I have to grab them individually with longer paths, as needed. It's fine.
+     *       -E
+     */
+
+    public float speed = 0.5f;          // So far I'm just using this for the Armature's movement speed.
+
+    // Claw high point target stats
+    public float elevatorUp = 15;
+    public float minLength = 2f;
+    public float hingeUp = -12f;
+
+    // Claw low point target stats
+    public float elevatorDown = 9.25f;
+    public float maxLength = 7f;      // Length of fully extended "cable". (yPos of 
+    public float hingeDown = -0.5f;
+
+    [SerializeField]
+    private float timeDown = 1.0f;         // (what was this for?) (Maybe I can use it for the lower/raise function.)     -E
+    [SerializeField] float wait = 2.5f; // How long the claw should stay down.
+    bool clawActing = false;              // the claw is not acting     -E
     
 
     // Start is called before the first frame update
     void Start()
     {
         //  Assigning components to our handles for ease of use in Update()   -E
-        Elevator = GameObject.Find("Elevator");
+        Elevator = GameObject.Find("Elevator");     // What the Claw's Character Joint is attached to. Its only value to us is its Y position.
+        Claw = GameObject.Find("Claw");             // Location of the Character Joint component itself. Holds most of the values we'll be adjusting.
+        Armature = this.gameObject;                 // <-- Just a reminder. The "Armature" is what this script is actually attached to.     -E
+        
     }
 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        timer += Time.deltaTime;        // Each frame, the <timer>'s value increases by the fraction of a second that has passed between frame renders. (This might be redundant with FixedUpdate(), but I'm not sure)
-
         // Movement controls for the claw-machine's armature.   -E
         if (Input.GetKey(KeyCode.W))
         {
@@ -50,54 +71,53 @@ public class clawMovement : MonoBehaviour       // Note that although it's calle
 
         /*  Pseudocode for claw-grab action:
          *  Step 1: Lower claw.
-         *      Method A) Temporarily increase CharacterJoint.connectedAnchor.y to a value of -1.0f
-         *      Method B) ???
-         *          Step 1a: Wait for some seconds. Coroutine?
+         *      Method A) Lower elevator while raising hinge swing-axes.
+         *          Step 1a: Wait for some seconds by housing the Raise action in a separate function, called with Invoke(String "methodName", Float seconds)
+         *  Stuck on this step for way too long.
+         *  
          *  Step 2: Close claw.
          *      Method A) Operate hinge joints on claw bones, I think. This is possibly an animation?
          *  Step 3: Raise claw.
          *      Method A) Return CharacterJoint.connectedAnchor.y to its starting value of -0.5f
          */     // -E
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Okay, let's try it. Edit: Nope it acts completely insane. What's going wrong?
+        if (Input.GetKeyDown(KeyCode.Space) && !clawActing && Elevator.transform.position.y == elevatorUp)
         {
-            float ElevatorY = Elevator.transform.position.y;            // grab the Y value of the Elevator's position, to pass into the loop below.
-            float lerpStart = ElevatorY;                                // Copy the Elevator's present position to use as the static start of the Lerp.
-
-            for (float i = 0f; i < 1f; i += Time.deltaTime)             // the operation will complete in 1 second.
-            {
-                float remainingDist = Mathf.InverseLerp(0f, 1f, i);     // calculate the remaining time each loop before the second is over.
-                
-                // Elevator Y pos -> 9.25f
-                ElevatorY = Mathf.Lerp(lerpStart, 9.25f, remainingDist);  // Lerp it: from start, to target, by a factor proportional to the time remaining
-                Elevator.transform.position = new Vector3(0,ElevatorY,0);   // update the Elevator's transform with the adjusted position each loop
-
-                //tether.connectedAnchor.y -> 0.5f
-
-                /*
-                 *              <-- This is where you were working last!!!
-                 *                      HEY LOOK
-                 *                          -E
-                 */
-                
-                //tether.anchor.y -> 7.85f
-            }
+            clawActing = true;
         }
+        //then
+        if (clawActing && Elevator.transform.position.y > elevatorDown)
+        {
+            Elevator.transform.Translate(Vector3.down * Time.deltaTime * 2);    //This is working DO NOT CHANGE.     -E
+
+            Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
+            Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeDown, 0), Time.deltaTime * 2);
+            Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
+
+            Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
+            Length = Vector3.MoveTowards(Length, new Vector3(0, maxLength, 0), Time.deltaTime * 2);
+            Claw.GetComponent<CharacterJoint>().anchor = Length;
+
+        } else if (clawActing && Elevator.transform.position.y <= elevatorDown)
+        {
+            clawActing = false;
+        }
+        if (!clawActing && Elevator.transform.position.y < elevatorUp) {
+            Elevator.transform.Translate(Vector3.up * Time.deltaTime * 2);
+
+            Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
+            Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeUp, 0), Time.deltaTime * 2);
+            Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
+
+            Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
+            Length = Vector3.MoveTowards(Length, new Vector3(0, minLength, 0), Time.deltaTime * 2);
+            Claw.GetComponent<CharacterJoint>().anchor = Length;
+          }
     }
 
     //  Methods Zone, the zone for methods.     -E
 
-    // Lower the claw:
-    //public void Lower()
-    //{
-        
-    //}
-
-    //public void Raise()     //Raise the claw        -E
-    //{
-    //    tether.connectedAnchor = Vector3.MoveTowards(tether.connectedAnchor, hiPt, Time.deltaTime);
-    //    clawDown = false;
-    //}
 
 }   //end of Monobehavior; no code goes below/outside this line.    -E
 
