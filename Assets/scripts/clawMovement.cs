@@ -91,13 +91,13 @@ public class clawMovement : MonoBehaviour       // Note that although it's calle
         {
             Elevator.transform.Translate(Vector3.down * Time.deltaTime * 2);    //This is working DO NOT CHANGE.     -E
 
-            Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
-            Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeDown, 0), Time.deltaTime * 2);
-            Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
+            //Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
+            //Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeDown, 0), Time.deltaTime * 2);
+            //Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
 
-            Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
-            Length = Vector3.MoveTowards(Length, new Vector3(0, maxLength, 0), Time.deltaTime * 2);
-            Claw.GetComponent<CharacterJoint>().anchor = Length;
+            //Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
+            //Length = Vector3.MoveTowards(Length, new Vector3(0, maxLength, 0), Time.deltaTime * 2);
+            //Claw.GetComponent<CharacterJoint>().anchor = Length;
 
         } else if (clawActing && Elevator.transform.position.y <= elevatorDown)
         {
@@ -106,13 +106,13 @@ public class clawMovement : MonoBehaviour       // Note that although it's calle
         if (!clawActing && Elevator.transform.position.y < elevatorUp) {
             Elevator.transform.Translate(Vector3.up * Time.deltaTime * 2);
 
-            Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
-            Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeUp, 0), Time.deltaTime * 2);
-            Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
+            //Vector3 Hinge = Claw.GetComponent<CharacterJoint>().connectedAnchor;
+            //Hinge = Vector3.MoveTowards(Hinge, new Vector3(0, hingeUp, 0), Time.deltaTime * 2);
+            //Claw.GetComponent<CharacterJoint>().connectedAnchor = Hinge;
 
-            Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
-            Length = Vector3.MoveTowards(Length, new Vector3(0, minLength, 0), Time.deltaTime * 2);
-            Claw.GetComponent<CharacterJoint>().anchor = Length;
+            //Vector3 Length = Claw.GetComponent<CharacterJoint>().anchor;
+            //Length = Vector3.MoveTowards(Length, new Vector3(0, minLength, 0), Time.deltaTime * 2);
+            //Claw.GetComponent<CharacterJoint>().anchor = Length;
           }
     }
 
